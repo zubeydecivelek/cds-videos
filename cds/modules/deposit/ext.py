@@ -25,6 +25,7 @@
 """CDSDeposit app for Webhook receivers."""
 
 import re
+import mimetypes
 
 from invenio_base.signals import app_loaded
 from invenio_db import db
@@ -45,38 +46,39 @@ from .receivers import (
 
 def _create_tags(obj):
     """Create additional tags for file."""
-    # Subtitle file
-    pattern = re.compile(".*_([a-zA-Z]{2})\.vtt$")
-    with db.session.begin_nested():
-        # language tag
-        found = pattern.findall(obj.key)
-        if len(found) == 1:
-            lang = found[0]
-            ObjectVersionTag.create_or_update(obj, "language", lang)
-        else:
-            # clean to be sure there is no some previous value
-            ObjectVersionTag.delete(obj, "language")
-        # other tags
-        ObjectVersionTag.create_or_update(obj, "content_type", "vtt")
-        ObjectVersionTag.create_or_update(obj, "context_type", "subtitle")
-        ObjectVersionTag.create_or_update(obj, "media_type", "subtitle")
-        # refresh object
-        db.session.add(obj)
+    pattern_subtitle = re.compile(r".*_([a-zA-Z]{2})\.vtt$")
+    pattern_poster = re.compile(r"^poster\.(jpg|png)$")
 
-        # Poster frame
-        pattern = re.compile("^poster\.(jpg|png)$")
-        try:
-            poster = pattern.findall(obj.key)
-            if poster:
-                ext = pattern.findall(poster.key)[0]
-                # frame tags
-                ObjectVersionTag.create_or_update(poster, "content_type", ext)
-                ObjectVersionTag.create_or_update(poster, "context_type", "poster")
-                ObjectVersionTag.create_or_update(poster, "media_type", "image")
-                # refresh object
-                db.session.add(poster)
-        except IndexError:
-            return
+    file_name = obj.key
+    file_ext = file_name.rsplit(".", 1)[-1].lower() if "." in file_name else None
+    
+    mime_type, _ = mimetypes.guess_type(file_name)
+    if mime_type:
+        media_type = mime_type.split("/")[0]  # Get the main category
+    else:
+        media_type = "unknown"
+
+    with db.session.begin_nested():
+        if file_ext == "vtt":
+            match = pattern_subtitle.search(file_name)
+            if match:
+                ObjectVersionTag.create_or_update(obj, "language", match.group(1))
+            else:
+                ObjectVersionTag.delete(obj, "language")
+
+            ObjectVersionTag.create_or_update(obj, "content_type", "vtt")
+            ObjectVersionTag.create_or_update(obj, "context_type", "subtitle")
+            ObjectVersionTag.create_or_update(obj, "media_type", "subtitle")
+        elif pattern_poster.match(file_name):
+            ObjectVersionTag.create_or_update(obj, "content_type", file_ext)
+            ObjectVersionTag.create_or_update(obj, "context_type", "poster")
+            ObjectVersionTag.create_or_update(obj, "media_type", "image")
+        else:
+            ObjectVersionTag.create_or_update(obj, "context_type", "additional_file")
+            ObjectVersionTag.create_or_update(obj, "content_type", file_ext or "unknown")
+            ObjectVersionTag.create_or_update(obj, "media_type", media_type)
+
+        db.session.add(obj)
 
 
 def create_tags_on_file_upload(sender, obj):
