@@ -605,6 +605,10 @@ Step 5: (Optional) Upload Additional File
 
 ``PUT`` ``{{baseURL}}/api/files/{{bucket_id}}/{{additional_file}}``
 
+**Headers:**  
+
+- ``X-Invenio-File-Tags: context_type=additional_file``
+
 **Parameters:**
 
 .. list-table:: 

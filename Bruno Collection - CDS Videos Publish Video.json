@@ -200,7 +200,13 @@
       "request": {
         "url": "{{baseURL}}/api/files/{{bucket_id}}/{{additional_file}}",
         "method": "PUT",
-        "headers": [],
+        "headers": [
+          {
+            "name": "X-Invenio-File-Tags",
+            "value": "context_type=additional_file",
+            "enabled": true
+          }
+        ],
         "params": [],
         "body": {
           "mode": "json",
@@ -284,9 +290,6 @@
         "allow": true
       }
     },
-    "ignore": [
-      "node_modules",
-      ".git"
-    ]
+    "ignore": ["node_modules", ".git"]
   }
 }
