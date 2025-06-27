@@ -131,4 +131,62 @@ angular.element(document).ready(function () {
     ["cds", "invenioSearch"],
     { strictDi: true }
   );
+  angular.bootstrap(
+    document.getElementById("cds-recent-lectures"),
+    ["cds", "invenioSearch"],
+    { strictDi: true }
+  );
+  angular.bootstrap(
+    document.getElementById("cds-popular-press"),
+    ["cds", "invenioSearch"],
+    { strictDi: true }
+  );
+  angular.bootstrap(
+    document.getElementById("cds-popular-accelerators"),
+    ["cds", "invenioSearch"],
+    { strictDi: true }
+  );
+  angular.bootstrap(
+    document.getElementById("cds-popular-physics"),
+    ["cds", "invenioSearch"],
+    { strictDi: true }
+  );
+  angular.bootstrap(
+    document.getElementById("cds-popular-experiments"),
+    ["cds", "invenioSearch"],
+    { strictDi: true }
+  );
+  angular.bootstrap(
+    document.getElementById("cds-popular-data"),
+    ["cds", "invenioSearch"],
+    { strictDi: true }
+  );
+
+  angular.bootstrap(
+    document.getElementById("cds-popular-animations"),
+    ["cds", "invenioSearch"],
+    { strictDi: true }
+  );
+
+  angular.bootstrap(
+    document.getElementById("cds-popular-academic-training-lectures"),
+    ["cds", "invenioSearch"],
+    { strictDi: true }
+  );
+  angular.bootstrap(
+    document.getElementById("cds-popular-elearning"),
+    ["cds", "invenioSearch"],
+    { strictDi: true }
+  );
+  angular.bootstrap(
+    document.getElementById("cds-popular-video-lectures"),
+    ["cds", "invenioSearch"],
+    { strictDi: true }
+  );
+  angular.bootstrap(
+    document.getElementById("cds-popular-talks"),
+    ["cds", "invenioSearch"],
+    { strictDi: true }
+  );
+
 });
