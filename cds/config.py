@@ -290,6 +290,7 @@ SEARCH_UI_VIDEO_FEATURED = "templates/cds/video/featured.html"
 SEARCH_UI_VIDEO_MEDIUM = "templates/cds/video/featured-medium.html"
 # Angular template for small size (used for search results)
 SEARCH_UI_VIDEO_SMALL = "templates/cds/video/small.html"
+HOMEPAGE_VIDEO_SMALL = "templates/cds/video/small_video_card.html"
 
 # Invenio-Stats
 # =============
@@ -943,6 +944,8 @@ FRONTPAGE_ENDPOINT = "cds_home.index"
 FRONTPAGE_FEATURED_QUERY = "/api/records/?q=featured:true&size=1&sort=mostrecent"
 # Recent videos query
 FRONTPAGE_RECENT_QUERY = "/api/records/?size=3&sort=mostrecent&type=VIDEO"
+# Recent lectures query
+FRONTPAGE_POPULAR_LECTURES_QUERY = "/api/records/?size=6&sort=mostrecent&q=collections=Lectures"
 # Queries for the boxes
 FRONTPAGE_QUERIES = [
     {"size": 5, "page": 1},
@@ -996,6 +999,41 @@ FRONTPAGE_CHANNELS = [
         # https://github.com/CERNDocumentServer/cds-videos/issues/1759
         "img_filename": "channel_animations.jpg",
         "qs": "keyword=animations",
+    },
+]
+
+FRONTPAGE_TALKS_SEMINARS_OTHER_EVENTS = [
+    {
+        "label": "Colloquia",
+        "qs": 'collections="Lectures,Talks Seminars and Other Events,Colloquia"',
+    },
+    {
+        "label": "Other Talks",
+        "qs": 'collections="Lectures,Talks Seminars and Other Events,Other Talks"',
+    },    
+    {
+        "label": "CERN-wide meetings trainings and events",
+        "qs": 'collections="Lectures,Talks Seminars and Other Events,CERN-wide meetings trainings and events"',
+    },    
+    {
+        "label": "Conference records",
+        "qs": 'collections="Lectures,Talks Seminars and Other Events,Conference records"',
+    },    
+    {
+        "label": "Outreach events",
+        "qs": 'collections="Lectures,Talks Seminars and Other Events,Outreach events"',
+    },    
+    {
+        "label": "Scientific Seminars and Workshops",
+        "qs": 'collections="Lectures,Talks Seminars and Other Events,Scientific Seminars and Workshops"',
+    },    
+    {
+        "label": "Teacher Programmes",
+        "qs": 'collections="Lectures,Talks Seminars and Other Events,Teacher Programmes"',
+    },
+    {
+        "label": "Student Lectures",
+        "qs": 'collections="Lectures,Talks Seminars and Other Events,Student Lectures"',
     },
 ]
 
