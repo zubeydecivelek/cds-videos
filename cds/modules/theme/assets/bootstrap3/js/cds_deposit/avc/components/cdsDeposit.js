@@ -48,6 +48,11 @@ function cdsDepositCtrl(
 
   this.framesReady = false;
 
+  this.chaptersTask = {
+    status: null,
+    running: false,
+  };
+
   // Deposit type
   that.depositType = that.master ? "project" : "video";
 
@@ -351,6 +356,20 @@ function cdsDepositCtrl(
         that.getTaskFeedback(flowId).then(function (data) {
           var tasksById = _.groupBy(data, "id");
           that.allFlowsTasksByName = _.groupBy(data, "name");
+          var chapterTask = data.find(function (task) {
+            return task.name === "file_video_extract_chapter_frames";
+          });
+          if (chapterTask) {
+            that.chaptersTask.status = chapterTask.status;
+            that.chaptersTask.running = ["PENDING", "STARTED"].includes(
+              chapterTask.status
+            );
+          } else {
+            that.chaptersTask.status = null;
+            that.chaptersTask.running = false;
+          }
+          that.record._cds.state.file_video_extract_chapter_frames =
+            that.chaptersTask.status;
           // each taskId is an array: '1233': [task]
           // remove the array for each key to make it simple to use
           for (var key in tasksById) {

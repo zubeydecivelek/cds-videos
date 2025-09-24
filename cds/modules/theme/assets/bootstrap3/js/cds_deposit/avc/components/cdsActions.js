@@ -20,6 +20,7 @@ function cdsActionsCtrl($scope, $q, cdsAPI) {
             if (_check.indexOf("DELETE") > -1) {
               message = "Successfully deleted.";
             } else if (_check.indexOf("PUBLISH") > -1) {
+              that.cdsDepositCtrl.fetchFlowTasksStatuses();
               message = "Successfully published.";
             }
             that.cdsDepositCtrl.onSuccessAction(response, message);

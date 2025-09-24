@@ -64,10 +64,11 @@
     </button>
     <button
         ng-hide='$ctrl.cdsDepositCtrl.isDraft()'
-        ng-disabled="$ctrl.cdsDepositCtrl.cdsDepositsCtrl.loading"
+        ng-disabled="$ctrl.cdsDepositCtrl.cdsDepositsCtrl.loading || $ctrl.cdsDepositCtrl.chaptersTask.running"
         class="btn btn-sm btn-default"
         ng-click="$ctrl.editPublished()">
-      {{ $ctrl.cdsDepositCtrl.actionLoading ? 'Editing ...' : 'Edit' }}
+      <span ng-if="$ctrl.cdsDepositCtrl.chaptersTask.running">Please wait for edit</span>
+      <span ng-if="!$ctrl.cdsDepositCtrl.chaptersTask.running">{{ $ctrl.cdsDepositCtrl.actionLoading ? 'Editing ...' : 'Edit' }}</span>
     </button>
     <a
         ng-hide="$ctrl.cdsDepositCtrl.record.report_number || !$ctrl.cdsDepositCtrl.cdsDepositsCtrl.showAvcRestrictedFields || !$ctrl.cdsDepositCtrl.cdsDepositsCtrl.master.metadata.category || !$ctrl.cdsDepositCtrl.cdsDepositsCtrl.master.metadata.type"
